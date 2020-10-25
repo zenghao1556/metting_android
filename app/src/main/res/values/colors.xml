@@ -24,4 +24,7 @@
     <color name="lightgrey">#D3D3D3</color>
     <color name="gray">#A9A9A9</color>
     <color name="color_BBBBBB">#BBBBBB</color>
+    <color name="text_black_9">#999999</color>
+    <color name="gold">#b89766</color>
+    <color name="bg">#f7f7f7</color>
 </resources>

@@ -12,10 +12,10 @@ public class CodeUtils {
     //随机码集
     private static final char[] CHARS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-//            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-//            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-//            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-//            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+           /* 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'*/
     };
 
     private static CodeUtils mCodeUtils;
@@ -25,13 +25,13 @@ public class CodeUtils {
 
     //Default Settings
     private static final int DEFAULT_CODE_LENGTH = 4;//验证码的长度  这里是4位
-    private static final int DEFAULT_FONT_SIZE = 60;//字体大小
+    private static final int DEFAULT_FONT_SIZE = 55;//字体大小
     private static final int DEFAULT_LINE_NUMBER = 3;//多少条干扰线
     private static final int BASE_PADDING_LEFT = 20; //左边距
     private static final int RANGE_PADDING_LEFT = 30;//左边距范围值
     private static final int BASE_PADDING_TOP = 70;//上边距
     private static final int RANGE_PADDING_TOP = 15;//上边距范围值
-    private static final int DEFAULT_WIDTH = 200;//默认宽度.图片的总宽
+    private static final int DEFAULT_WIDTH = 205;//默认宽度.图片的总宽
     private static final int DEFAULT_HEIGHT = 100;//默认高度.图片的总高
     private static final int DEFAULT_COLOR = Color.rgb(0xee, 0xee, 0xee);//默认背景颜色值
 
@@ -49,7 +49,7 @@ public class CodeUtils {
         mPaddingLeft = 0; //每次生成验证码图片时初始化
         mPaddingTop = 0;
 
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(DEFAULT_WIDTH, DEFAULT_HEIGHT, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         code = createCode();
         canvas.drawARGB(0, 0, 0, 0);
@@ -133,5 +133,38 @@ public class CodeUtils {
     private void randomPadding() {
         mPaddingLeft += BASE_PADDING_LEFT + mRandom.nextInt(RANGE_PADDING_LEFT);
         mPaddingTop = BASE_PADDING_TOP + mRandom.nextInt(RANGE_PADDING_TOP);
+    }
+
+    public boolean PhoneNumber(String phonr_number){
+        if(isMatchLength(phonr_number,11)&&isMovephone(phonr_number)){
+            return true;
+        }
+        return false;
+    }
+    /**
+     *   判断字符串的位数
+     *
+     * */
+    private static boolean isMatchLength(String str,int length){
+        if(str.isEmpty()){
+            return false;
+        }
+        else {
+            return str.length()==length?true:false;
+        }
+    }
+    /**
+     * 验证手机格式
+     */
+    private static  boolean isMovephone(String mobileNums){
+
+        /**
+         *电话号码第一位必定为1，第二位必定为3或5或7或8，其他位置的可以为0-9
+         **/
+        String telRegex = "[1][3578]\\d{9}";
+        if(telRegex.matches(mobileNums))
+            return false;
+        else
+            return mobileNums.matches(telRegex);
     }
 }

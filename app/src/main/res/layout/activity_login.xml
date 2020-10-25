@@ -63,6 +63,7 @@
                 android:layout_height="40dp"
                 android:hint="请输入手机号"
                 android:paddingLeft="12dp"
+                android:text="15621308386"
                 android:textSize="13sp"
                 android:background="@drawable/shape_edit_bg"/>
 
@@ -75,6 +76,7 @@
                 android:layout_marginTop="14dp"
                 android:textSize="13sp"
                 android:inputType="textPassword"
+                android:text="admin321"
                 android:background="@drawable/shape_edit_bg"/>
 
             <LinearLayout
@@ -90,7 +92,6 @@
                     android:layout_marginRight="2dp"
                     android:background="@drawable/shape_edit_bg_left"
                     android:hint="图形验证码"
-                    android:inputType="textPassword"
                     android:paddingLeft="12dp"
                     android:textSize="13sp" />
 
@@ -118,7 +119,7 @@
                 android:paddingLeft="12dp"
                 android:layout_marginTop="14dp"
                 android:textSize="13sp"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:background="@drawable/shape_edit_bg"/>
 
             <LinearLayout
@@ -133,7 +134,7 @@
                     android:layout_height="40dp"
                     android:background="@drawable/shape_edit_bg_left"
                     android:hint="请输入验证码"
-                    android:inputType="textPassword"
+                    android:inputType="number"
                     android:paddingLeft="12dp"
                     android:textSize="13sp" />
 
@@ -144,7 +145,7 @@
                     android:gravity="center"
                     android:textSize="13sp"
                     android:textColor="#333333"
-                    android:background="@drawable/shape_edit_bg_right"
+                    android:background="@drawable/shape_edit_bg_right_gray"
                     android:text="发送验证码"/>
             </LinearLayout>
         </LinearLayout>
@@ -180,6 +181,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

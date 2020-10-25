@@ -10,4 +10,7 @@
         <item name="colorControlNormal">@color/gray</item>
         <item name="colorControlActivated">@color/color_CEBD00</item>
     </style>
+    <style name="RefreshProgress">
+        <item name="android:indeterminateDrawable">@anim/progress_loading</item>
+    </style>
 </resources>
