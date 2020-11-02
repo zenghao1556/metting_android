@@ -4,35 +4,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MeetingDetailActivity">
-    <RelativeLayout
-        android:id="@+id/title"
+    <WebView
+        android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@color/white">
-        <ImageView
-            android:id="@+id/iv_back_btn"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginLeft="14dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/back_icon"/>
+        android:layout_height="match_parent"
+        android:scrollbars="none"/>
 
-        <TextView
-            android:id="@+id/meeting_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="常务会"
-            android:textColor="#333333"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="20sp"/>
+    <ImageView
+        android:id="@+id/iv_back_btn"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@mipmap/back_icon"/>
 
-        <ImageView
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="14dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/mine"/>
+    <RelativeLayout
+        android:layout_width="163dp"
+        android:layout_height="440dp"
+        android:background="@color/white"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+        <RelativeLayout
+            android:id="@+id/rl_user"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:background="#ECEBEB">
+            <ImageView
+                android:id="@+id/user_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/add_user_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:layout_marginLeft="13dp"
+                android:layout_toRightOf="@+id/user_icon"
+                android:textSize="17sp"
+                android:text="人员列表"/>
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/lv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="0dp"
+            android:divider="@android:color/transparent"
+            android:listSelector="#00000000"
+            android:layout_below="@+id/rl_user"
+            android:visibility="gone"/>
+        <RelativeLayout
+            android:id="@+id/rl_add_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+           <LinearLayout
+               android:id="@+id/ll_not_data"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_centerInParent="true"
+               android:gravity="center_horizontal"
+               android:orientation="vertical"
+               android:visibility="gone">
+               <ImageView
+                   android:layout_width="37dp"
+                   android:layout_height="37dp"
+                   android:src="@mipmap/not_data_icon"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                   android:textColor="#999999"
+                   android:textSize="12sp"
+                   android:text="列表为空"/>
+
+           </LinearLayout>
+            <EditText
+                android:id="@+id/et_add_user"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:hint="提示：请将人员名称【粘贴】到文本框中，每人一行"/>
+            <TextView
+                android:id="@+id/tv_close_btn"
+                android:layout_width="105dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/btn_gray_bg"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:text="关闭列表"/>
+            <TextView
+                android:id="@+id/tv_add_btn"
+                android:layout_width="105dp"
+                android:layout_height="40dp"
+                android:layout_above="@+id/tv_close_btn"
+                android:background="@mipmap/btn_yellow_bg"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textColor="#333333"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:text="新增人员"/>
+
+        </RelativeLayout>
+
     </RelativeLayout>
+
 </RelativeLayout>
