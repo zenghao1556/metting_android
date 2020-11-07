@@ -237,6 +237,7 @@ class LoginActivity : BaseActivity() {
                             if (loginEntity.code == "0"){
                                 MyApplication.getInstance()?.token = loginEntity.token
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                finish()
                             }else{
                                 Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
                             }
