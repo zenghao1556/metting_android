@@ -18,12 +18,64 @@
         android:layout_marginLeft="10dp"
         android:src="@mipmap/back_icon"/>
 
+    <LinearLayout
+        android:layout_width="59dp"
+        android:layout_height="297dp"
+        android:background="@color/white"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_swich_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:clickable="true"
+            android:src="@drawable/shape_change_btn"/>
+
+        <ImageView
+            android:id="@+id/iv_edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/shape_edit_btn"/>
+
+        <ImageView
+            android:id="@+id/iv_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/shape_add_btn"/>
+        <ImageView
+            android:id="@+id/iv_move_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/shape_move_btn"/>
+        <ImageView
+            android:id="@+id/iv_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/shape_delete_btn"/>
+        <ImageView
+            android:id="@+id/iv_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/shape_save_btn"/>
+
+    </LinearLayout>
+
     <RelativeLayout
+        android:id="@+id/rl_right_control"
         android:layout_width="163dp"
         android:layout_height="440dp"
         android:background="@color/white"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:visibility="gone">
         <RelativeLayout
             android:id="@+id/rl_user"
             android:layout_width="match_parent"
@@ -60,6 +112,7 @@
             android:id="@+id/rl_add_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/rl_user"
             android:visibility="gone">
            <LinearLayout
                android:id="@+id/ll_not_data"
@@ -90,6 +143,7 @@
                 android:paddingLeft="10dp"
                 android:textSize="12sp"
                 android:textColor="#999999"
+                android:background="@color/white"
                 android:hint="提示：请将人员名称【粘贴】到文本框中，每人一行"/>
             <TextView
                 android:id="@+id/tv_close_btn"

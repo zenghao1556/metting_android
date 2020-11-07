@@ -1,5 +1,6 @@
 package com.taiyi.metting.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -12,15 +13,14 @@ import com.taiyi.metting.MyApplication
 import com.taiyi.metting.R
 import com.taiyi.metting.adapter.TestAdapter
 import com.taiyi.metting.adapter.TestAdapter.ItemMoveListener
+import com.taiyi.metting.entity.LoginEntity
 import com.taiyi.metting.entity.MeetingListResponse
 import com.taiyi.metting.entity.PersonEntity
+import com.taiyi.metting.entity.SavePersonEntity
 import com.taiyi.metting.http.HttpClient
 import com.taiyi.metting.utils.DensityUtil
 import com.taiyi.metting.view.CoverManager
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import java.io.IOException
 
 class MeetingDetailActivity : BaseActivity() {
@@ -34,11 +34,21 @@ class MeetingDetailActivity : BaseActivity() {
     lateinit var ll_not_data:LinearLayout
     lateinit var et_add_user:EditText
 
+    lateinit var iv_swich_btn:ImageView
+    lateinit var iv_edit_btn:ImageView
+    lateinit var iv_add_btn:ImageView
+    lateinit var iv_move_btn:ImageView
+    lateinit var iv_delete_btn:ImageView
+    lateinit var iv_save_btn:ImageView
+
+    lateinit var rl_right_control:RelativeLayout
+
     lateinit var adapter: TestAdapter
     private var dataList:MutableList<PersonEntity> = mutableListOf()
 
     private var allData:MutableList<PersonEntity> = mutableListOf()
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meeting_detail)
@@ -55,6 +65,7 @@ class MeetingDetailActivity : BaseActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun initView(){
         iv_back_btn = findViewById(R.id.iv_back_btn)
         lv_list = findViewById(R.id.lv_list)
@@ -64,6 +75,14 @@ class MeetingDetailActivity : BaseActivity() {
         tv_close_btn = findViewById(R.id.tv_close_btn)
         ll_not_data = findViewById(R.id.ll_not_data)
         et_add_user = findViewById(R.id.et_add_user)
+
+        rl_right_control = findViewById(R.id.rl_right_control)
+        iv_swich_btn = findViewById(R.id.iv_swich_btn)
+        iv_edit_btn = findViewById(R.id.iv_edit_btn)
+        iv_add_btn = findViewById(R.id.iv_add_btn)
+        iv_move_btn = findViewById(R.id.iv_move_btn)
+        iv_delete_btn = findViewById(R.id.iv_delete_btn)
+        iv_save_btn = findViewById(R.id.iv_save_btn)
         adapter = TestAdapter(this, R.layout.person_item, dataList, object : ItemMoveListener {
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onMove(x: Float, y: Float, position: Int) {
@@ -129,7 +148,35 @@ class MeetingDetailActivity : BaseActivity() {
                 ll_not_data.visibility = View.GONE
                 et_add_user.visibility = View.VISIBLE
             }else{
+                var data = et_add_user.text.toString().replace("\n",",")
+                val requestBody: RequestBody = FormBody.Builder()
+                    .add("attendees", data)
+                    .add("meetingId", meetingData.id.toString()).build()
+                val request = Request.Builder()
+                    .addHeader("token", MyApplication.getInstance()?.token)
+                    .url("https://f.longjuli.com/meetingcanhui/savePerson")
+                    .post(requestBody)
+                    .build()
+                HttpClient.instance.httpClient?.newCall(request)?.enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        runOnUiThread(Runnable {
+                            Toast.makeText(this@MeetingDetailActivity, "导入失败", Toast.LENGTH_SHORT).show()
+                        })
+                    }
 
+                    override fun onResponse(call: Call, response: Response) {
+                        runOnUiThread(Runnable {
+                            var data = response.body()?.string()
+                            var personEntity: SavePersonEntity = JSONObject.parseObject(data,
+                                SavePersonEntity::class.java)
+                                Toast.makeText(this@MeetingDetailActivity, personEntity.msg, Toast.LENGTH_SHORT).show()
+                            if (personEntity.code == "0"){
+                                getPersonData()
+                            }
+                        })
+                    }
+
+                })
             }
         }
 
@@ -140,11 +187,49 @@ class MeetingDetailActivity : BaseActivity() {
 
                 ll_not_data.visibility = View.VISIBLE
                 et_add_user.visibility = View.GONE
+            }else{
+                rl_right_control.visibility = View.GONE
             }
         }
 
         lv_list.adapter = adapter
         iv_back_btn.setOnClickListener { finish() }
+
+        iv_swich_btn.setOnClickListener {
+            webView.evaluateJavascript(
+                "getDragSeatsBox()",
+                ValueCallback { })
+        }
+        iv_edit_btn.setOnClickListener {
+            webView.evaluateJavascript(
+                "editSeat()",
+                ValueCallback { })
+        }
+        iv_add_btn.setOnClickListener {
+            webView.evaluateJavascript(
+                "addSeat()",
+                ValueCallback { })
+        }
+        iv_move_btn.setOnClickListener {
+            if (rl_right_control.visibility == View.VISIBLE){
+                rl_right_control.visibility = View.GONE
+            }else{
+                rl_right_control.visibility = View.VISIBLE
+            }
+        }
+        iv_delete_btn.setOnClickListener {
+            webView.evaluateJavascript(
+                "deleteSeats()",
+                ValueCallback { })
+        }
+
+        iv_save_btn.setOnClickListener {
+            webView.evaluateJavascript(
+                "saveSeats()",
+                ValueCallback { })
+        }
+
+
         initWebView()
     }
 
@@ -174,6 +259,8 @@ class MeetingDetailActivity : BaseActivity() {
         webView.settings.useWideViewPort = true
         webView.loadUrl("https://m.longjuli.com/meet/pad/seatmap.html?meetingid=${meetingData.id}&token=${MyApplication.getInstance()?.token}")
     }
+
+
 
 
     private fun getPersonData(){
