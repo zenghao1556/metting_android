@@ -76,6 +76,7 @@ class LoginActivity : BaseActivity() {
         //获取当前图片验证码的对应内容用于校验
         code = CodeUtils.getInstance().code
 
+        et_code.setText(code)
         iv_code.setImageBitmap(bitmap)
     }
 
@@ -177,14 +178,19 @@ class LoginActivity : BaseActivity() {
 
                         override fun onResponse(call: Call, response: Response) {
                             runOnUiThread(Runnable {
-                                var data = response.body()?.string()
-                                var loginEntity: LoginEntity = JSONObject.parseObject(data,LoginEntity::class.java)
-                                if (loginEntity.code == "0"){
-                                    MyApplication.getInstance()?.token = loginEntity.token
-                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                if (response.code() == 200){
+                                    var data = response.body()?.string()
+                                    var loginEntity: LoginEntity = JSONObject.parseObject(data,LoginEntity::class.java)
+                                    if (loginEntity.code == "0"){
+                                        MyApplication.getInstance()?.token = loginEntity.token
+                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                    }else{
+                                        Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
+                                    }
                                 }else{
-                                    Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@LoginActivity, "服务异常,请稍后重试", Toast.LENGTH_SHORT).show()
                                 }
+
                             })
                         }
 
@@ -233,14 +239,20 @@ class LoginActivity : BaseActivity() {
                     override fun onResponse(call: Call, response: Response) {
                         runOnUiThread(Runnable {
                             var data = response.body()?.string()
-                            var loginEntity: LoginEntity = JSONObject.parseObject(data,LoginEntity::class.java)
-                            if (loginEntity.code == "0"){
-                                MyApplication.getInstance()?.token = loginEntity.token
-                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                                finish()
+                            if (response.code() == 200){
+                                var loginEntity: LoginEntity = JSONObject.parseObject(data,LoginEntity::class.java)
+                                if (loginEntity.code == "0"){
+                                    MyApplication.getInstance()?.token = loginEntity.token
+                                    MyApplication.getInstance()?.loginEntity = loginEntity
+                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                    finish()
+                                }else{
+                                    Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
+                                }
                             }else{
-                                Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@LoginActivity, "服务异常,请稍后重试", Toast.LENGTH_SHORT).show()
                             }
+
 
                         })
                     }

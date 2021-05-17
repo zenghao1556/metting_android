@@ -1,12 +1,8 @@
 package com.taiyi.metting.activity
 
 import android.content.Intent
-import android.media.Image
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import com.alibaba.fastjson.JSONObject
 import com.taiyi.metting.MyApplication
 import com.taiyi.metting.R
@@ -14,7 +10,10 @@ import com.taiyi.metting.adapter.MeetingListAdapter
 import com.taiyi.metting.entity.MeetingListResponse
 import com.taiyi.metting.http.HttpClient
 import com.taiyi.metting.utils.PullToRefreshView
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
 
 class MeetingPlaceActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshListener, PullToRefreshView.OnHeaderRefreshListener {
@@ -42,7 +41,7 @@ class MeetingPlaceActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshLis
         et_content = findViewById(R.id.et_content)
         rtr_view.setOnFooterRefreshListener(this)
         rtr_view.setOnHeaderRefreshListener(this)
-        adapter = MeetingListAdapter(this,R.layout.meeting_item,dataList)
+        adapter = MeetingListAdapter(this, R.layout.meeting_item, dataList)
         lv_metting_list.adapter = adapter
 
         tv_search_btn.setOnClickListener {
@@ -52,7 +51,7 @@ class MeetingPlaceActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshLis
         }
 
         lv_metting_list.setOnItemClickListener { _, _, position, _ ->
-            var intent = Intent(this,MeetingDetailActivity::class.java)
+            var intent = Intent(this, MeetingDetailActivity::class.java)
             intent.putExtra("data", dataList[position])
             startActivity(intent)
         }
@@ -62,29 +61,64 @@ class MeetingPlaceActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshLis
     }
 
 
-    private fun getData(meeting:String){
-
+    private fun getData(meeting: String){
+        MyApplication.getInstance()?.token = "232384"
         val request = Request.Builder()
             .url("https://f.longjuli.com/meeting/meetingSearch?meeting=$meeting&limit=10&page=$currentPage")
             .addHeader("token", MyApplication.getInstance()?.token)
             .get()
             .build()
 
-        HttpClient.instance.httpClient?.newCall(request)?.enqueue(object: Callback {
+        HttpClient.instance.httpClient?.newCall(request)?.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
 
             }
 
             override fun onResponse(call: Call, response: Response) {
-                var data = response.body()?.string()
-                var response: MeetingListResponse = JSONObject.parseObject(data, MeetingListResponse::class.java)
+                when {
+                    response.code() == 200 -> {
+                        var data = response.body()?.string()
+                        var response: MeetingListResponse = JSONObject.parseObject(
+                            data,
+                            MeetingListResponse::class.java
+                        )
+                        if (response.code == 0) {
+                            runOnUiThread(Runnable {
+                                dataList.addAll(response.data)
+                                adapter.notifyDataSetChanged()
+                                rtr_view.onFooterRefreshComplete()
+                                rtr_view.onHeaderRefreshComplete()
+                            })
+                        } else if (response.code == 300) {
+                            runOnUiThread(Runnable {
+                                Toast.makeText(
+                                    this@MeetingPlaceActivity,
+                                    "登录过期，请重新登录",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
-                runOnUiThread(Runnable {
-                    dataList.addAll(response.data)
-                    adapter.notifyDataSetChanged()
-                    rtr_view.onFooterRefreshComplete()
-                    rtr_view.onHeaderRefreshComplete()
-                })
+                                val intent = Intent(
+                                    this@MeetingPlaceActivity,
+                                    LoginActivity::class.java
+                                ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                                startActivity(intent)
+                            })
+                        }
+
+                    }
+                    else -> {
+                        runOnUiThread(Runnable {
+                            Toast.makeText(
+                                this@MeetingPlaceActivity,
+                                "服务异常,请稍后重试",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        })
+
+                    }
+                }
+
 
             }
 

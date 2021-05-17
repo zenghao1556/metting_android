@@ -1,6 +1,8 @@
 package com.taiyi.metting.activity
 
-import android.content.Intent
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -13,7 +15,6 @@ import com.taiyi.metting.MyApplication
 import com.taiyi.metting.R
 import com.taiyi.metting.adapter.TestAdapter
 import com.taiyi.metting.adapter.TestAdapter.ItemMoveListener
-import com.taiyi.metting.entity.LoginEntity
 import com.taiyi.metting.entity.MeetingListResponse
 import com.taiyi.metting.entity.PersonEntity
 import com.taiyi.metting.entity.SavePersonEntity
@@ -93,7 +94,8 @@ class MeetingDetailActivity : BaseActivity() {
 
             @RequiresApi(Build.VERSION_CODES.KITKAT)
             override fun onDown(x: Float, y: Float, position: Int) {
-                var data: String = "{'name':'${dataList[position].name}','id':'${dataList[position].id}'}"
+                var data: String =
+                    "{'name':'${dataList[position].name}','id':'${dataList[position].id}'}"
                 webView.evaluateJavascript(
                     "dragEndMatchSeat(${x / 2},${y / 2},${data})",
                     ValueCallback { })
@@ -118,7 +120,7 @@ class MeetingDetailActivity : BaseActivity() {
                         ej.data = mutableListOf()
                         newData.add(ej)
                     }
-                    dataList.addAll(positon+1,newData)
+                    dataList.addAll(positon + 1, newData)
                     adapter.notifyDataSetChanged()
                 }
             }else{
@@ -145,38 +147,51 @@ class MeetingDetailActivity : BaseActivity() {
                 tv_add_btn.text = "导入"
                 tv_close_btn.text = "返回列表"
 
+                et_add_user.visibility = View.VISIBLE
                 ll_not_data.visibility = View.GONE
                 et_add_user.visibility = View.VISIBLE
             }else{
-                var data = et_add_user.text.toString().replace("\n",",")
-                val requestBody: RequestBody = FormBody.Builder()
-                    .add("attendees", data)
-                    .add("meetingId", meetingData.id.toString()).build()
-                val request = Request.Builder()
-                    .addHeader("token", MyApplication.getInstance()?.token)
-                    .url("https://f.longjuli.com/meetingcanhui/savePerson")
-                    .post(requestBody)
-                    .build()
-                HttpClient.instance.httpClient?.newCall(request)?.enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        runOnUiThread(Runnable {
-                            Toast.makeText(this@MeetingDetailActivity, "导入失败", Toast.LENGTH_SHORT).show()
-                        })
-                    }
+                if (et_add_user.text.isNotEmpty()){
+                    var data = et_add_user.text.toString().replace("\n", ",")
+                    val requestBody: RequestBody = FormBody.Builder()
+                        .add("attendees", data)
+                        .add("meetingId", meetingData.id.toString()).build()
+                    val request = Request.Builder()
+                        .addHeader("token", MyApplication.getInstance()?.token)
+                        .url("https://f.longjuli.com/meetingcanhui/savePerson")
+                        .post(requestBody)
+                        .build()
+                    HttpClient.instance.httpClient?.newCall(request)?.enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            runOnUiThread(Runnable {
+                                Toast.makeText(
+                                    this@MeetingDetailActivity,
+                                    "导入失败",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            })
+                        }
 
-                    override fun onResponse(call: Call, response: Response) {
-                        runOnUiThread(Runnable {
-                            var data = response.body()?.string()
-                            var personEntity: SavePersonEntity = JSONObject.parseObject(data,
-                                SavePersonEntity::class.java)
-                                Toast.makeText(this@MeetingDetailActivity, personEntity.msg, Toast.LENGTH_SHORT).show()
-                            if (personEntity.code == "0"){
-                                getPersonData()
-                            }
-                        })
-                    }
+                        override fun onResponse(call: Call, response: Response) {
+                            runOnUiThread(Runnable {
+                                var data = response.body()?.string()
+                                var personEntity: SavePersonEntity = JSONObject.parseObject(
+                                    data,
+                                    SavePersonEntity::class.java
+                                )
+                                Toast.makeText(
+                                    this@MeetingDetailActivity,
+                                    personEntity.msg,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                if (personEntity.code == "0") {
+                                    getPersonData()
+                                }
+                            })
+                        }
 
-                })
+                    })
+                }
             }
         }
 
@@ -197,7 +212,7 @@ class MeetingDetailActivity : BaseActivity() {
 
         iv_swich_btn.setOnClickListener {
             webView.evaluateJavascript(
-                "getDragSeatsBox()",
+                "exchangeSeats()",
                 ValueCallback { })
         }
         iv_edit_btn.setOnClickListener {
@@ -209,6 +224,8 @@ class MeetingDetailActivity : BaseActivity() {
             webView.evaluateJavascript(
                 "addSeat()",
                 ValueCallback { })
+
+
         }
         iv_move_btn.setOnClickListener {
             if (rl_right_control.visibility == View.VISIBLE){
@@ -227,6 +244,7 @@ class MeetingDetailActivity : BaseActivity() {
             webView.evaluateJavascript(
                 "saveSeats()",
                 ValueCallback { })
+
         }
 
 
@@ -257,6 +275,9 @@ class MeetingDetailActivity : BaseActivity() {
         webView.settings.loadWithOverviewMode = true
         webView.settings.builtInZoomControls = true
         webView.settings.useWideViewPort = true
+        //设置为可调用js方法
+        webView.settings.javaScriptEnabled = true
+        webView.addJavascriptInterface(this, "H5JsMeeting")
         webView.loadUrl("https://m.longjuli.com/meet/pad/seatmap.html?meetingid=${meetingData.id}&token=${MyApplication.getInstance()?.token}")
     }
 
@@ -290,7 +311,7 @@ class MeetingDetailActivity : BaseActivity() {
     }
 
 
-    fun addAllData(content:String) {
+    fun addAllData(content: String) {
         var response: Map<String, Any> = DensityUtil.getMapForJson(content)
         var pending: Map<String, Any> = DensityUtil.getMapForJson(response["pending"].toString())
         val iterator = pending.keys
@@ -301,7 +322,10 @@ class MeetingDetailActivity : BaseActivity() {
                 person.name = name
                 person.isExpand = false
                 person.id = 0
-                var persons: MutableList<String> = JSONObject.parseArray(pending[name].toString(), String::class.java)
+                var persons: MutableList<String> = JSONObject.parseArray(
+                    pending[name].toString(),
+                    String::class.java
+                )
                 person.data = persons
                 allData.add(person)
                 if (persons!=null && persons.size>0){
@@ -322,7 +346,7 @@ class MeetingDetailActivity : BaseActivity() {
 
     }
 
-    private fun showView(isHaveData:Boolean){
+    private fun showView(isHaveData: Boolean){
         if (isHaveData){
             lv_list.visibility = View.VISIBLE
             rl_add_layout.visibility = View.GONE
@@ -342,6 +366,76 @@ class MeetingDetailActivity : BaseActivity() {
             }
 
         }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    private fun inPutDialog(context: Context, type: Int, data: String) {
+        var builder = AlertDialog.Builder(context).create()
+        //通过布局填充器获login_layout
+        var view = layoutInflater.inflate(R.layout.input_dialog, null)
+        //获取两个文本编辑框（密码这里不做登陆实现，仅演示）
+        var name = view.findViewById<View>(R.id.message) as EditText
+        var negtive = view.findViewById<View>(R.id.negtive)
+        var positive = view.findViewById<View>(R.id.positive)
+        builder.setView(view) //设置login_layout为对话提示框
+        builder.setCancelable(false) //设置为不可取消
+
+        if (data.isNotEmpty()){
+            name.setText(data)
+        }
+        negtive.setOnClickListener {
+            builder.dismiss()
+        }
+        positive.setOnClickListener {
+            val name = name.text.toString().trim()
+            if (name!=null &&  name.isNotEmpty()){
+
+                runOnUiThread(Runnable {
+                    webView.evaluateJavascript("promptInputDialog('${type}','${name}')",
+                        ValueCallback { })
+                })
+
+                builder.dismiss()
+            }
+        }
+        builder.show() //显示Dialog对话框
+        builder.window?.setLayout(DensityUtil.dp2px(440f),DensityUtil.dp2px(230f))
+    }
+
+
+    private fun confirmDialog(context: Context,msg: String) {
+        var view = layoutInflater.inflate(R.layout.confirm_dialog, null)
+        var builder = AlertDialog.Builder(context)
+            .setView(view)
+            .setCancelable(false)
+            .create()
+
+        var title  = view.findViewById<TextView>(R.id.title)
+        var positive = view.findViewById<Button>(R.id.positive)
+        title.text = msg
+        positive.setOnClickListener {
+            builder.dismiss()
+        }
+        builder.show() //显示Dialog对话框
+        builder.window?.setLayout(DensityUtil.dp2px(440f),DensityUtil.dp2px(230f))
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    @JavascriptInterface
+    fun showInputDialog(type:Int,data:String) {
+        inPutDialog(this,type,data)
+    }
+
+    @JavascriptInterface
+    fun showTipsDialog(msg:String) {
+        confirmDialog(this,msg)
+    }
+
+    @JavascriptInterface
+    fun checkLoginState():Boolean{
+        return !MyApplication.getInstance()?.token.isNullOrEmpty()
     }
 
 }

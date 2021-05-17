@@ -29,7 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginRight="60dp"
+        android:layout_toLeftOf="@+id/tv_end_time"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#666666"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:textSize="14sp"
                 android:text="北京市大兴区旧宫镇"/>
@@ -63,12 +65,15 @@
             android:id="@+id/tv_start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:textColor="#666666"
             android:textSize="14sp"
             android:text=""/>
     </LinearLayout>
     </LinearLayout>
+
+
     <ImageView
         android:id="@+id/right_icon"
         android:layout_width="17dp"

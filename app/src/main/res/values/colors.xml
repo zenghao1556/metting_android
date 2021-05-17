@@ -19,6 +19,7 @@
     <color name="colorBlue">#0467D1</color>
     <color name="white_8_percent">#14FFFFFF</color>
     <color name="black_8_percent">#14000000</color>
+    <color name="gray_f5">#F5F5F5</color>
     <color name="transparent">#00000000</color>
     <color name="lavender">#E6E6FA</color>
     <color name="lightgrey">#D3D3D3</color>
@@ -27,4 +28,7 @@
     <color name="text_black_9">#999999</color>
     <color name="gold">#b89766</color>
     <color name="bg">#f7f7f7</color>
+    <color name="color_ffce16">#FFCE16</color>
+    <color name="color_ecebeb">#ECEBEB</color>
+    <color name="color_f9f8f8">#F9F8F8</color>
 </resources>

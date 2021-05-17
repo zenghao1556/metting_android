@@ -19,5 +19,6 @@ class MainActivity : BaseActivity() {
         tv_zu = findViewById(R.id.tv_zu)
 
         tv_zwq.setOnClickListener(View.OnClickListener { startActivity(Intent(this,MeetingPlaceActivity::class.java)) })
+        tv_dzzp.setOnClickListener { startActivity(Intent(this,TableCardActivity::class.java)) }
     }
 }

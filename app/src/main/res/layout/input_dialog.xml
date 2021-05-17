@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="440dp"
+    android:layout_height="230dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_dialog_bg"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center|left"
+            android:background="@drawable/shape_edit_bg"
+            android:paddingLeft="12dp"
+            android:layout_marginTop="49dp"
+            android:textSize="14dp"
+            android:hint="请输入名称"
+            android:textColor="#999999"
+            tools:text="" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <Button
+                android:id="@+id/negtive"
+                android:layout_width="104dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="80dp"
+                android:background="@mipmap/cancle_btn"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
+
+            <Button
+                android:id="@+id/positive"
+                android:layout_width="104dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="80dp"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/confirm_btn"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

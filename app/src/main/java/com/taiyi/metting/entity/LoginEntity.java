@@ -4,6 +4,16 @@ public class LoginEntity {
     String msg;
     String code;
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    String phone;
+
     public String getMsg() {
         return msg;
     }

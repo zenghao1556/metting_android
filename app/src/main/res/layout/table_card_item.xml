@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="51dp"
+    android:background="@drawable/shape_edit_bg">
+    <ImageView
+        android:id="@+id/meeting_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@mipmap/meeting_icon"/>
+
+    <TextView
+        android:id="@+id/meeting_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/meeting_icon"
+        android:layout_toLeftOf="@+id/ll_meeting_time"
+        android:layout_marginRight="5dp"
+        android:text="市政府常务会"/>
+
+    <TextView
+        android:id="@+id/tv_meeeting_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="60dp"
+        android:layout_toLeftOf="@+id/tv_choonse_btn"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:text="会议名称"/>
+
+
+
+    <ImageView
+        android:id="@+id/right_icon"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/right_icon"/>
+
+    <TextView
+        android:id="@+id/tv_choonse_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/right_icon"
+        android:layout_marginRight="17dp"
+        android:layout_centerVertical="true"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        android:text="选择会议"/>
+</RelativeLayout>

@@ -21,6 +21,7 @@ class HttpClient {
                     .readTimeout(5, TimeUnit.SECONDS) //设置读超时
                     .writeTimeout(5, TimeUnit.SECONDS) ////设置写超时
                     .connectTimeout(15, TimeUnit.SECONDS) //设置连接超时
+                    .pingInterval(40,TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true) //是否自动重连
                     .build()
             }
