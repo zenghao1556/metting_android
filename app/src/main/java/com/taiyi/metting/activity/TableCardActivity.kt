@@ -33,7 +33,7 @@ class TableCardActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshListen
 
     private var dataList:MutableList<TableCardReponse.TableCardInfo> = mutableListOf()
 
-    private var meetingList = arrayListOf<String>("十三届三中全会", "第五届人大会议", "第六届人大会议")
+    private var meetingList = arrayListOf<String>()
     private var meetingListObject = mutableListOf<MeetingListResponse.MeetingEntity>()
     private var spinnerAdapter: ArrayAdapter<String>? = null
     override fun onCreate(savedInstanceState: Bundle?) {

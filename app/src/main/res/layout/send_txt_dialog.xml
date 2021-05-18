@@ -33,40 +33,49 @@
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:background="@drawable/send_btn_bg"
                 android:gravity="center"
                 android:singleLine="true"
+                android:textStyle="bold"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:text="发送生僻字"
                 android:textColor="@color/colorBlack"
-                android:textSize="12sp" />
-            <Button
+                android:textSize="13sp" />
+            <TextView
                 android:id="@+id/negtive"
-                android:layout_width="104dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
                 android:layout_toLeftOf="@+id/send"
-                android:background="@mipmap/cancle_btn"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:text="取消"
+                android:background="@drawable/send_btn_bg"
                 android:singleLine="true"
                 android:layout_marginRight="20dp"
-                android:textColor="#999999"
-                android:textSize="16sp" />
+                android:textColor="@color/colorBlack"
+                android:textSize="13sp" />
 
 
-            <Button
+            <TextView
                 android:id="@+id/positive"
-                android:layout_width="104dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_toRightOf="@+id/send"
-                android:layout_marginLeft="20dp"
-                android:background="@mipmap/confirm_btn"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:text="确定"
+                android:background="@drawable/send_btn_bg_yellow"
+                android:layout_toRightOf="@+id/send"
                 android:singleLine="true"
-                android:textColor="#999999"
-                android:textSize="16sp" />
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="13sp" />
 
 
         </RelativeLayout>

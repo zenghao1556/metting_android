@@ -62,7 +62,6 @@ class MeetingPlaceActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshLis
 
 
     private fun getData(meeting: String){
-        MyApplication.getInstance()?.token = "232384"
         val request = Request.Builder()
             .url("https://f.longjuli.com/meeting/meetingSearch?meeting=$meeting&limit=10&page=$currentPage")
             .addHeader("token", MyApplication.getInstance()?.token)

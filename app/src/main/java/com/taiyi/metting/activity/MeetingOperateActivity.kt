@@ -362,11 +362,13 @@ class MeetingOperateActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onDestroy() {
-        super.onDestroy()
+
         EventBus.getDefault().unregister(this)
         webView.evaluateJavascript(
             "stopMeetWebSocket()",
             ValueCallback { })
+        webView.clearCache(true)
+        super.onDestroy()
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -727,5 +729,6 @@ class MeetingOperateActivity : BaseActivity() {
         fun positive()
         fun cancle()
     }
+
 
 }

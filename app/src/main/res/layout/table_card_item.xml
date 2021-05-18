@@ -33,6 +33,7 @@
         android:layout_toLeftOf="@+id/tv_choonse_btn"
         android:textColor="#000000"
         android:textSize="16sp"
+        android:visibility="invisible"
         android:text="会议名称"/>
 
 
@@ -55,5 +56,6 @@
         android:layout_centerVertical="true"
         android:textColor="#666666"
         android:textSize="14sp"
+        android:visibility="invisible"
         android:text="选择会议"/>
 </RelativeLayout>

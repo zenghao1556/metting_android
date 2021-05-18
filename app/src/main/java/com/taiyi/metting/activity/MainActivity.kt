@@ -20,5 +20,6 @@ class MainActivity : BaseActivity() {
 
         tv_zwq.setOnClickListener(View.OnClickListener { startActivity(Intent(this,MeetingPlaceActivity::class.java)) })
         tv_dzzp.setOnClickListener { startActivity(Intent(this,TableCardActivity::class.java)) }
+        tv_zu.setOnClickListener { startActivity(Intent(this,MineActivity::class.java)) }
     }
 }

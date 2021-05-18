@@ -438,4 +438,9 @@ class MeetingDetailActivity : BaseActivity() {
         return !MyApplication.getInstance()?.token.isNullOrEmpty()
     }
 
+    override fun onDestroy() {
+        webView.clearCache(true)
+        super.onDestroy()
+    }
+
 }

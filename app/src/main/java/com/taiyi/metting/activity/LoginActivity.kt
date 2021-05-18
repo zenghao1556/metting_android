@@ -44,7 +44,7 @@ class LoginActivity : BaseActivity() {
     var bitmap: Bitmap? = null
     var code: String? = null
 
-    //1:账号登录  2:验证码登录
+    //1:账号登录  2:验证码登录  15621308386
     var loginState = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
