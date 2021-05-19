@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="163dp"
-    android:layout_height="43dp"
+    android:layout_height="wrap_content"
     android:paddingLeft="13dp"
     android:background="@color/gray_f5">
 
 
     <TextView
         android:id="@+id/person_name"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:textColor="#333333"
         android:textSize="15sp"
-        android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@+id/meeting_icon"
+        android:layout_toLeftOf="@+id/hand_icon"
         android:text="张三"/>
 
 

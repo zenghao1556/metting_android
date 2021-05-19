@@ -11,4 +11,9 @@
     <string name="auto_loadmore_loading">Loading…</string>
     <string name="auto_loadmore_load_finish">All data is loaded</string>
     <string name="auto_loadmore_load_failed">Loading failed, please click me to try again.</string>
+
+    <string name="permission_title">悬浮窗口权限</string>
+    <string name="permission_msg">为了让应用正常运行，请您去开启悬浮窗口权限</string>
+    <string name="ok_btn">确定</string>
+    <string name="setting_btn">设置</string>
 </resources>

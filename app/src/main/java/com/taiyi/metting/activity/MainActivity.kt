@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.taiyi.metting.R
+import com.taiyi.metting.utils.PermisionUtils
 
 class MainActivity : BaseActivity() {
     lateinit var tv_dzzp: ImageView
@@ -18,8 +19,13 @@ class MainActivity : BaseActivity() {
         tv_zwq = findViewById(R.id.tv_zwq)
         tv_zu = findViewById(R.id.tv_zu)
 
-        tv_zwq.setOnClickListener(View.OnClickListener { startActivity(Intent(this,MeetingPlaceActivity::class.java)) })
-        tv_dzzp.setOnClickListener { startActivity(Intent(this,TableCardActivity::class.java)) }
-        tv_zu.setOnClickListener { startActivity(Intent(this,MineActivity::class.java)) }
+        tv_zwq.setOnClickListener(View.OnClickListener {
+            val permission: Boolean = PermisionUtils.showPermission(this@MainActivity)
+            if (permission){
+                startActivity(Intent(this, MeetingPlaceActivity::class.java))
+            }
+        })
+        tv_dzzp.setOnClickListener { startActivity(Intent(this, TableCardActivity::class.java)) }
+        tv_zu.setOnClickListener { startActivity(Intent(this, MineActivity::class.java)) }
     }
 }

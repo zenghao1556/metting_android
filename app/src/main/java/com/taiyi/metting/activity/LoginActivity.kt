@@ -76,7 +76,7 @@ class LoginActivity : BaseActivity() {
         //获取当前图片验证码的对应内容用于校验
         code = CodeUtils.getInstance().code
 
-        et_code.setText(code)
+//        et_code.setText(code)
         iv_code.setImageBitmap(bitmap)
     }
 
