@@ -38,6 +38,7 @@ class MeetingOperateActivity : BaseActivity() {
     lateinit var iv_show_control:ImageView
     lateinit var iv_check_status:ImageView
     lateinit var iv_change_status:ImageView
+    lateinit var iv_clear_data:ImageView
 
     lateinit var ll_ready: RelativeLayout
     lateinit var ll_start: RelativeLayout
@@ -94,6 +95,7 @@ class MeetingOperateActivity : BaseActivity() {
         iv_show_control = findViewById(R.id.iv_show_control)
         iv_check_status = findViewById(R.id.iv_check_status)
         iv_change_status = findViewById(R.id.iv_change_status)
+        iv_clear_data = findViewById(R.id.iv_clear_data)
 
         ll_ready = findViewById(R.id.ll_ready)
         ll_start = findViewById(R.id.ll_start)
@@ -120,10 +122,37 @@ class MeetingOperateActivity : BaseActivity() {
                 "showSeat()",
                 ValueCallback { })
         }
+        iv_clear_data.setOnClickListener {
+            confirmDialog(this,"清除缓存会把全部席签恢复至初始状态，是否确定清除？",object:ConfirmListener{
+                override fun positive() {
+                    webView.evaluateJavascript(
+                        "clearCache()",
+                        ValueCallback { })
+                    setViewToGray()
+                    ll_restart.setBackgroundColor(ContextCompat.getColor(this@MeetingOperateActivity,R.color.color_f9f8f8))
+                }
+
+                override fun cancle() {
+                }
+
+            })
+        }
         iv_check_status.setOnClickListener {
-            webView.evaluateJavascript(
-                "checkStatus()",
-                ValueCallback { })
+
+            confirmDialog(this,"错漏重发是给全部超时席签重新发送当前指令，是否确定发送？",object:ConfirmListener{
+                override fun positive() {
+                    webView.evaluateJavascript(
+                        "checkStatus()",
+                        ValueCallback { })
+                    setViewToGray()
+                    ll_restart.setBackgroundColor(ContextCompat.getColor(this@MeetingOperateActivity,R.color.color_f9f8f8))
+                }
+
+                override fun cancle() {
+                }
+
+            })
+
         }
 
         iv_set_parameter.setOnClickListener {
@@ -133,9 +162,20 @@ class MeetingOperateActivity : BaseActivity() {
         }
 
         iv_change_status.setOnClickListener {
-            webView.evaluateJavascript(
-                "changeStatus()",
-                ValueCallback { })
+            confirmDialog(this,"同步状态是把选中的座区状态直接改成当前正常状态，是否确定同步？",object:ConfirmListener{
+                override fun positive() {
+                    webView.evaluateJavascript(
+                        "changeStatus()",
+                        ValueCallback { })
+                    setViewToGray()
+                    ll_restart.setBackgroundColor(ContextCompat.getColor(this@MeetingOperateActivity,R.color.color_f9f8f8))
+                }
+
+                override fun cancle() {
+                }
+
+            })
+
         }
         iv_show_control.setOnClickListener {
             if (rl_right_control.visibility == View.VISIBLE){
@@ -353,6 +393,7 @@ class MeetingOperateActivity : BaseActivity() {
         webView.settings.loadWithOverviewMode = true
         webView.settings.builtInZoomControls = true
         webView.settings.useWideViewPort = true
+        webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         //设置为可调用js方法
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(this, "H5JsMeeting")
@@ -676,8 +717,8 @@ class MeetingOperateActivity : BaseActivity() {
     }
 
     @JavascriptInterface
-    fun showToast(msg: String) {
-        ToastUtil.showTop(this,msg,R.color.colorBg)
+    fun showToast(msg: String,time:Int) {
+        ToastUtil.showToast(this,msg,R.color.colorBg,time)
     }
 
     @JavascriptInterface

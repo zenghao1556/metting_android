@@ -2,43 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="440dp"
     android:layout_height="230dp"
+    android:paddingBottom="20dp"
     android:background="@drawable/shape_dialog_bg">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:layout_marginTop="49dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:textSize="17sp"
-            android:text="请选择座位区"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="49dp"
+        android:layout_marginRight="45dp"
+        android:text="请选择座位区"
+        android:textColor="#000000"
+        android:textSize="17sp" />
 
 
-
-
-            <Button
-                android:id="@+id/positive"
-                android:layout_width="104dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="45dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="60dp"
-                android:layout_below="@+id/title"
-                android:background="@mipmap/confirm_btn"
-                android:gravity="center"
-                android:textColor="#999999"
-                android:textSize="16sp" />
+    <Button
+        android:id="@+id/positive"
+        android:layout_width="104dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="45dp"
+        android:background="@mipmap/confirm_btn"
+        android:gravity="center"
+        android:textColor="#999999"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/cancle"
         android:layout_width="104dp"
         android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/positive"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/title"
         android:background="@mipmap/cancle_btn"
         android:gravity="center"
         android:textColor="#999999"

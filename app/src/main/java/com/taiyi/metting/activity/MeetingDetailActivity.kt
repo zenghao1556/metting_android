@@ -434,6 +434,13 @@ class MeetingDetailActivity : BaseActivity() {
     }
 
     @JavascriptInterface
+    fun refreshUserData() {
+        allData.clear()
+        dataList.clear()
+        getPersonData()
+    }
+
+    @JavascriptInterface
     fun checkLoginState():Boolean{
         return !MyApplication.getInstance()?.token.isNullOrEmpty()
     }

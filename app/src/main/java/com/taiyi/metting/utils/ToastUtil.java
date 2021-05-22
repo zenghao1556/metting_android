@@ -16,7 +16,7 @@ public class ToastUtil {
     /**
      * 传入文字,在顶部显示
      */
-    public static void showTop(Context context, String text, int resourceId) {
+    public static void showToast(Context context, String text, int resourceId,int time) {
         try {
             if (mToast == null) {
                 mToast = new Toast(context);
@@ -32,7 +32,7 @@ public class ToastUtil {
                 textView.setText(text);
                 mToast.setView(view);
             }
-            mToast.setDuration(Toast.LENGTH_LONG);
+            mToast.setDuration(time);
 
             mToast.setGravity(Gravity.CENTER, 0, 100);
             mToast.show();

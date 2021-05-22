@@ -20,9 +20,10 @@
 
     <LinearLayout
         android:layout_width="59dp"
-        android:layout_height="325dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape_left_bg"
         android:layout_centerVertical="true"
+        android:paddingBottom="15dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -33,47 +34,106 @@
             android:layout_marginTop="15dp"
             android:clickable="true"
             android:src="@drawable/shape_change_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="位置互换"/>
 
         <ImageView
             android:id="@+id/iv_edit_btn"
             android:layout_width="29dp"
             android:layout_height="29dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/shape_edit_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="人名修改"/>
         <ImageView
             android:id="@+id/iv_show_detail_btn"
             android:layout_width="29dp"
             android:layout_height="29dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/shape_info_btn"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="桌牌详情"/>
         <ImageView
             android:id="@+id/iv_check_status"
             android:layout_width="29dp"
             android:layout_height="29dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/shape_check_btn"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="错漏重发"/>
         <ImageView
             android:id="@+id/iv_change_status"
             android:layout_width="29dp"
             android:layout_height="29dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/shape_sync_btn"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="状态同步"/>
+        <ImageView
+            android:id="@+id/iv_clear_data"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/shape_contorl_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="清除缓存"/>
         <ImageView
             android:id="@+id/iv_set_parameter"
             android:layout_width="29dp"
             android:layout_height="29dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/shape_setting_btn"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="基站设置"/>
         <ImageView
             android:id="@+id/iv_show_control"
             android:layout_width="29dp"
             android:layout_height="29dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/shape_contorl_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="群控操作"/>
+
     </LinearLayout>
 
     <RelativeLayout
