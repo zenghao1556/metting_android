@@ -9,12 +9,14 @@ import com.alibaba.fastjson.JSONObject
 import com.taiyi.metting.MyApplication
 import com.taiyi.metting.R
 import com.taiyi.metting.adapter.TableCardListAdapter
+import com.taiyi.metting.base.ConstUtils
 import com.taiyi.metting.entity.LoginEntity
 import com.taiyi.metting.entity.MeetingListResponse
 import com.taiyi.metting.entity.TableCardReponse
 import com.taiyi.metting.http.HttpClient
 import com.taiyi.metting.utils.DensityUtil
 import com.taiyi.metting.utils.PullToRefreshView
+import com.taiyi.metting.utils.SPUtils
 import okhttp3.*
 import java.io.IOException
 
@@ -97,10 +99,19 @@ class TableCardActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshListen
                 )
 
                 runOnUiThread(Runnable {
-                    dataList.addAll(response.data)
-                    adapter.notifyDataSetChanged()
-                    rtr_view.onFooterRefreshComplete()
-                    rtr_view.onHeaderRefreshComplete()
+                    if (response.code == 0){
+                        dataList.addAll(response.data)
+                        adapter.notifyDataSetChanged()
+                        rtr_view.onFooterRefreshComplete()
+                        rtr_view.onHeaderRefreshComplete()
+                    }else{
+                        Toast.makeText(
+                            this@TableCardActivity,
+                            response.msg,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
                 })
 
             }
@@ -159,7 +170,12 @@ class TableCardActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshListen
                             "登录过期，请重新登录",
                             Toast.LENGTH_SHORT
                         ).show()
-
+                        SPUtils.setStringPreferences(
+                            this@TableCardActivity,
+                            SPUtils.PROJECT,
+                            ConstUtils.USER_KEY,
+                            ""
+                        )
                         val intent = Intent(
                             this@TableCardActivity,
                             LoginActivity::class.java

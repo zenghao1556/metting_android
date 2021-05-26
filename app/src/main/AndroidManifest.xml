@@ -20,11 +20,22 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MineActivity"
+        <activity android:name=".activity.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MineActivity"
             android:fitsSystemWindows="true"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <meta-data
             android:name="android.notch_support"
@@ -55,13 +66,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.MainActivity"

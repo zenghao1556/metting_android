@@ -213,12 +213,15 @@ public final class WebSocketManager {
         public void run() {
             if (System.currentTimeMillis() - sendTime >= HEART_BEAT_RATE) {
                 String phone = MyApplication.Companion.getInstance().loginEntity.getPhone();
-                boolean isSuccess = mWebSocket.send(phone+"&HeartBeat");//发送一个空消息给服务器，通过发送消息的成功失败来判断长连接的连接状态
-                if (!isSuccess) {//长连接已断开
-                    mHandler.removeCallbacks(heartBeatRunnable);
-                    mWebSocket.cancel();//取消掉以前的长连接
+                if (mWebSocket!=null && isConnect){
+                    boolean isSuccess = mWebSocket.send(phone+"&HeartBeat");//发送一个空消息给服务器，通过发送消息的成功失败来判断长连接的连接状态
+                    if (!isSuccess) {//长连接已断开
+                        mHandler.removeCallbacks(heartBeatRunnable);
+                        mWebSocket.cancel();//取消掉以前的长连接
+                    }
+                    sendTime = System.currentTimeMillis();
                 }
-                sendTime = System.currentTimeMillis();
+
             }
             mHandler.postDelayed(this, HEART_BEAT_RATE);//每隔一定的时间，对长连接进行一次心跳检测
         }

@@ -14,10 +14,12 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
 import com.taiyi.metting.MyApplication
 import com.taiyi.metting.R
+import com.taiyi.metting.base.ConstUtils
 import com.taiyi.metting.entity.LoginEntity
 import com.taiyi.metting.http.HttpClient
 import com.taiyi.metting.utils.CodeUtils
 import com.taiyi.metting.utils.DensityUtil
+import com.taiyi.metting.utils.SPUtils
 import okhttp3.*
 import java.io.IOException
 
@@ -29,6 +31,8 @@ class LoginActivity : BaseActivity() {
     lateinit var et_pwd:EditText
     lateinit var et_phone:EditText
     lateinit var et_code_number:EditText
+
+    lateinit var rb_cache_pwd:CheckBox
 
     lateinit var et_phone_number:EditText
 
@@ -65,6 +69,7 @@ class LoginActivity : BaseActivity() {
         tv_pwd_login_msg = findViewById(R.id.tv_pwd_login_msg)
         tv_code_login_msg = findViewById(R.id.tv_code_login_msg)
         et_code_number = findViewById(R.id.et_code_number)
+        rb_cache_pwd = findViewById(R.id.rb_cache_pwd)
         ll_account = findViewById(R.id.ll_account)
         ll_code = findViewById(R.id.ll_code)
         tv_send_code_btn = findViewById(R.id.tv_send_code_btn)
@@ -74,9 +79,9 @@ class LoginActivity : BaseActivity() {
             Color.parseColor("#F9F8F8")
         )
         //获取当前图片验证码的对应内容用于校验
-        code = CodeUtils.getInstance().code
+//        code = CodeUtils.getInstance().code
 
-//        et_code.setText(code)
+        et_code.setText(code)
         iv_code.setImageBitmap(bitmap)
     }
 
@@ -144,11 +149,20 @@ class LoginActivity : BaseActivity() {
                 .build()
             HttpClient.instance.httpClient?.newCall(request)?.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
+                    runOnUiThread(Runnable {
+                        Toast.makeText(this@LoginActivity, "服务器异常，请稍后重试", Toast.LENGTH_SHORT).show()
+                    })
 
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-
+                    runOnUiThread(Runnable {
+                        if (response.code() == 200) {
+                            Toast.makeText(this@LoginActivity, "验证码发送成功", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@LoginActivity, "验证码发送失败", Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 }
 
             })
@@ -162,10 +176,10 @@ class LoginActivity : BaseActivity() {
                 ) {
                     val requestBody: RequestBody = FormBody.Builder()
                         .add("vcode", et_code_number.text.toString())
-                        .add("call", et_phone_number.text.toString())
-                        .add("remember", "true").build()
+                        .add("cell", et_phone_number.text.toString())
+                        .add("remember", rb_cache_pwd.isChecked.toString()).build()
                     val request = Request.Builder()
-                        .url("https://f.longjuli.com/code/getsmscode")
+                        .url("https://f.longjuli.com/Login")
                         .post(requestBody)
                         .build()
                     HttpClient.instance.httpClient?.newCall(request)?.enqueue(object : Callback {
@@ -178,17 +192,47 @@ class LoginActivity : BaseActivity() {
 
                         override fun onResponse(call: Call, response: Response) {
                             runOnUiThread(Runnable {
-                                if (response.code() == 200){
+                                if (response.code() == 200) {
                                     var data = response.body()?.string()
-                                    var loginEntity: LoginEntity = JSONObject.parseObject(data,LoginEntity::class.java)
-                                    if (loginEntity.code == "0"){
+                                    var loginEntity: LoginEntity = JSONObject.parseObject(
+                                        data,
+                                        LoginEntity::class.java
+                                    )
+                                    if (loginEntity.code == "0") {
                                         MyApplication.getInstance()?.token = loginEntity.token
-                                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                                    }else{
-                                        Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
+                                        MyApplication.getInstance()?.loginEntity = loginEntity
+
+                                        if (rb_cache_pwd.isChecked){
+                                            val user = JSON.toJSONString(loginEntity)
+                                            if (user != null) {
+                                                SPUtils.setStringPreferences(
+                                                    this@LoginActivity,
+                                                    SPUtils.PROJECT,
+                                                    ConstUtils.USER_KEY,
+                                                    user
+                                                )
+                                            }
+                                        }
+
+                                        startActivity(
+                                            Intent(
+                                                this@LoginActivity,
+                                                MainActivity::class.java
+                                            )
+                                        )
+                                    } else {
+                                        Toast.makeText(
+                                            this@LoginActivity,
+                                            loginEntity.msg,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
-                                }else{
-                                    Toast.makeText(this@LoginActivity, "服务异常,请稍后重试", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "服务异常,请稍后重试",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
 
                             })
@@ -224,6 +268,7 @@ class LoginActivity : BaseActivity() {
                 }
                 val requestBody: RequestBody = FormBody.Builder()
                     .add("username", phone)
+                    .add("remember", rb_cache_pwd.isChecked.toString())
                     .add("password", pwd).build()
                 val request = Request.Builder()
                     .url("https://f.longjuli.com/loginApp")
@@ -239,18 +284,44 @@ class LoginActivity : BaseActivity() {
                     override fun onResponse(call: Call, response: Response) {
                         runOnUiThread(Runnable {
                             var data = response.body()?.string()
-                            if (response.code() == 200){
-                                var loginEntity: LoginEntity = JSONObject.parseObject(data,LoginEntity::class.java)
-                                if (loginEntity.code == "0"){
+                            if (response.code() == 200) {
+                                var loginEntity: LoginEntity = JSONObject.parseObject(
+                                    data,
+                                    LoginEntity::class.java
+                                )
+                                if (loginEntity.code == "0") {
                                     MyApplication.getInstance()?.token = loginEntity.token
                                     MyApplication.getInstance()?.loginEntity = loginEntity
-                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+
+                                    if (rb_cache_pwd.isChecked){
+                                        val user = JSON.toJSONString(loginEntity)
+                                        if (user != null) {
+                                            SPUtils.setStringPreferences(
+                                                this@LoginActivity,
+                                                SPUtils.PROJECT,
+                                                ConstUtils.USER_KEY,
+                                                user
+                                            )
+                                        }
+                                    }
+
+                                    startActivity(
+                                        Intent(
+                                            this@LoginActivity,
+                                            MainActivity::class.java
+                                        )
+                                    )
                                     finish()
-                                }else{
-                                    Toast.makeText(this@LoginActivity, loginEntity.msg, Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        loginEntity.msg,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            }else{
-                                Toast.makeText(this@LoginActivity, "服务异常,请稍后重试", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(this@LoginActivity, "服务异常,请稍后重试", Toast.LENGTH_SHORT)
+                                    .show()
                             }
 
 

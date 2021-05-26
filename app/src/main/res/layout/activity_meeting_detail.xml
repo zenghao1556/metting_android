@@ -20,10 +20,11 @@
 
     <LinearLayout
         android:layout_width="59dp"
-        android:layout_height="297dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/shape_left_bg"
         android:layout_centerVertical="true"
         android:gravity="center_horizontal"
+        android:paddingBottom="15dp"
         android:orientation="vertical">
 
         <ImageView
@@ -33,6 +34,13 @@
             android:layout_marginTop="15dp"
             android:clickable="true"
             android:src="@drawable/shape_change_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="位置互换"/>
 
         <ImageView
             android:id="@+id/iv_edit_btn"
@@ -40,31 +48,65 @@
             android:layout_height="29dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/shape_edit_btn"/>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="人名修改"/>
         <ImageView
             android:id="@+id/iv_add_btn"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/shape_info_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="空座加人"/>
         <ImageView
             android:id="@+id/iv_move_btn"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/shape_move_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="人员列表"/>
         <ImageView
             android:id="@+id/iv_delete_btn"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/shape_delete_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="人名删除"/>
         <ImageView
             android:id="@+id/iv_save_btn"
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:layout_marginTop="15dp"
             android:src="@drawable/shape_save_btn"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorBlack"
+            android:text="一键保存"/>
 
     </LinearLayout>
 

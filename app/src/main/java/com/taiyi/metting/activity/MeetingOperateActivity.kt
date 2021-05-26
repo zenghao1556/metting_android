@@ -398,7 +398,7 @@ class MeetingOperateActivity : BaseActivity() {
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(this, "H5JsMeeting")
 
-        webView.loadUrl(" https://m.longjuli.com/meet/pad/meetingmap.html?meetingid=${meetingData.presentmeeting}&username=${MyApplication.getInstance()?.loginEntity?.phone}&token=${MyApplication.getInstance()?.token}")
+        webView.loadUrl("https://m.longjuli.com/meet/pad/meetingmap.html?meetingid=${meetingData.presentmeeting}&username=${MyApplication.getInstance()?.loginEntity?.phone}&token=${MyApplication.getInstance()?.token}")
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)

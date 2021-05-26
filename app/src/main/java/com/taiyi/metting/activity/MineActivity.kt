@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.taiyi.metting.R
+import com.taiyi.metting.base.ConstUtils
+import com.taiyi.metting.utils.SPUtils
 
 class MineActivity : BaseActivity() {
     private lateinit var back:ImageView
@@ -24,6 +26,12 @@ class MineActivity : BaseActivity() {
     private fun initListener(){
         back.setOnClickListener { finish() }
         logout.setOnClickListener {
+            SPUtils.setStringPreferences(
+                this@MineActivity,
+                SPUtils.PROJECT,
+                ConstUtils.USER_KEY,
+                ""
+            )
             val intent = Intent(
                 this@MineActivity,
                 LoginActivity::class.java

@@ -7,9 +7,11 @@ import com.alibaba.fastjson.JSONObject
 import com.taiyi.metting.MyApplication
 import com.taiyi.metting.R
 import com.taiyi.metting.adapter.MeetingListAdapter
+import com.taiyi.metting.base.ConstUtils
 import com.taiyi.metting.entity.MeetingListResponse
 import com.taiyi.metting.http.HttpClient
 import com.taiyi.metting.utils.PullToRefreshView
+import com.taiyi.metting.utils.SPUtils
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
@@ -90,6 +92,12 @@ class MeetingPlaceActivity : BaseActivity(),PullToRefreshView.OnFooterRefreshLis
                             })
                         } else if (response.code == 300) {
                             runOnUiThread(Runnable {
+                                SPUtils.setStringPreferences(
+                                    this@MeetingPlaceActivity,
+                                    SPUtils.PROJECT,
+                                    ConstUtils.USER_KEY,
+                                    ""
+                                )
                                 Toast.makeText(
                                     this@MeetingPlaceActivity,
                                     "登录过期，请重新登录",
