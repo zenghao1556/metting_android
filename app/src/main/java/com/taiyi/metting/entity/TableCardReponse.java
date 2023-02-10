@@ -61,6 +61,8 @@ public class TableCardReponse implements Serializable {
         private int meetingstate;
         private int seatnum;
         private int isshared;
+        private int communicationType;
+        private int presentmeeting;
 
         public int getId() {
             return id;
@@ -142,7 +144,14 @@ public class TableCardReponse implements Serializable {
             this.presentmeeting = presentmeeting;
         }
 
-        private int presentmeeting;
+
+        public int getCommunicationType() {
+            return communicationType;
+        }
+
+        public void setCommunicationType(int communicationType) {
+            this.communicationType = communicationType;
+        }
     }
 
 

@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MeetingDetailActivity">
+
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"/>
+        android:scrollbars="none" />
 
     <ImageView
         android:id="@+id/iv_back_btn"
@@ -112,7 +113,7 @@
             android:layout_width="29dp"
             android:layout_height="29dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/shape_setting_btn"/>
+            android:src="@drawable/shape_clear_btn"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -209,12 +210,13 @@
                 android:paddingRight="13dp"
                 android:background="#ECEBEB"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="会议开始"
                     android:textColor="#333333"
-                    android:textSize="15sp"
-                    android:text="会议开始"/>
+                    android:textSize="15sp" />
                 <ImageView
                     android:id="@+id/start_icon"
                     android:layout_width="22dp"

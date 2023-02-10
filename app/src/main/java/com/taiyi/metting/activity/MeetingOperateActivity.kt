@@ -334,7 +334,7 @@ class MeetingOperateActivity : BaseActivity() {
             confirmDialog(this,"请确认是否会议重置，设备重置之后需要重新绑定席签",object:ConfirmListener{
                 override fun positive() {
                     webView.evaluateJavascript(
-                        "changeSeatStatus(6)",
+                        "changeSeatStatus(7)",
                         ValueCallback { })
                     setViewToGray()
                     ll_restart.setBackgroundColor(ContextCompat.getColor(this@MeetingOperateActivity,R.color.color_f9f8f8))
@@ -356,6 +356,12 @@ class MeetingOperateActivity : BaseActivity() {
             }*/
         }
 
+        if (meetingData.communicationType == 1){
+            ll_pause.visibility = View.GONE
+            ll_resume.visibility = View.GONE
+            ll_stop.visibility = View.GONE
+            ll_reset.visibility = View.GONE
+        }
         initWebView()
     }
 
@@ -398,7 +404,7 @@ class MeetingOperateActivity : BaseActivity() {
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(this, "H5JsMeeting")
 
-        webView.loadUrl("https://m.longjuli.com/meet/pad/meetingmap.html?meetingid=${meetingData.presentmeeting}&username=${MyApplication.getInstance()?.loginEntity?.phone}&token=${MyApplication.getInstance()?.token}")
+        webView.loadUrl("https://m.longjuli.com/meet/pad/meetingmap.html?meetingid=${meetingData.presentmeeting}&username=${MyApplication.getInstance()?.loginEntity?.phone}&token=${MyApplication.getInstance()?.token}&communicationType=${meetingData.communicationType}")
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -429,11 +435,14 @@ class MeetingOperateActivity : BaseActivity() {
         var view = layoutInflater.inflate(R.layout.send_txt_dialog, null)
         //获取两个文本编辑框（密码这里不做登陆实现，仅演示）
         var name = view.findViewById<View>(R.id.message) as EditText
+        var txtCount = view.findViewById<View>(R.id.txtCount) as EditText
         var negtive = view.findViewById<View>(R.id.negtive)
         var positive = view.findViewById<View>(R.id.positive)
         var send = view.findViewById<View>(R.id.send)
         builder.setView(view) //设置login_layout为对话提示框
         builder.setCancelable(false) //设置为不可取消
+
+        txtCount.visibility = if (meetingData.communicationType == 1) View.VISIBLE else View.GONE
 
         if (data.isNotEmpty()) {
             name.setText(data)
@@ -443,10 +452,14 @@ class MeetingOperateActivity : BaseActivity() {
         }
         positive.setOnClickListener {
             val name = name.text.toString().trim()
-            if (name != null && name.isNotEmpty()) {
+            val count = txtCount.text.toString().trim()
 
+            if (name != null && name.isNotEmpty()) {
+                if (meetingData.communicationType == 1 && count.isNullOrEmpty()){
+                    return@setOnClickListener
+                }
                 runOnUiThread(Runnable {
-                    webView.evaluateJavascript("promptInputDialog('${type}','${name}')",
+                    webView.evaluateJavascript("promptInputDialog('${type}','${name}','${count}')",
                         ValueCallback { })
                 })
 
@@ -455,13 +468,13 @@ class MeetingOperateActivity : BaseActivity() {
         }
         send.setOnClickListener{
             runOnUiThread(Runnable {
-                webView.evaluateJavascript("promptInputDialog('99','${name}')",
+                webView.evaluateJavascript("promptInputDialog('99','发送生僻字','')",
                     ValueCallback { })
             })
             builder.dismiss()
         }
         builder.show() //显示Dialog对话框
-        builder.window?.setLayout(DensityUtil.dp2px(440f), DensityUtil.dp2px(230f))
+        builder.window?.setLayout(DensityUtil.dp2px(440f), LinearLayout.LayoutParams.WRAP_CONTENT)
     }
 
 
@@ -762,7 +775,7 @@ class MeetingOperateActivity : BaseActivity() {
                     Log.e("socket log",event.msg)
                     EventBus.getDefault().post(event)
                 }
-            }, "wss://f.longjuli.com/cardWebSocket/"+MyApplication.getInstance()?.loginEntity?.phone)
+            }, "ws://f.longjuli.com/cardWebSocket/"+MyApplication.getInstance()?.loginEntity?.phone)
         }.start()
     }
 

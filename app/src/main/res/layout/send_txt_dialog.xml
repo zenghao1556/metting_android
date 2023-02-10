@@ -1,84 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="440dp"
-    android:layout_height="230dp"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="440dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog_bg"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
-    <LinearLayout
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="49dp"
+        android:background="@drawable/shape_edit_bg"
+        android:gravity="center|left"
+        android:hint="请输入名称"
+        android:paddingLeft="12dp"
+        android:textColor="#999999"
+        android:textSize="14dp"
+        tools:text="" />
+
+    <EditText
+        android:id="@+id/txtCount"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_edit_bg"
+        android:gravity="center|left"
+        android:hint="请输入字体长度"
+        android:paddingLeft="12dp"
+        android:textColor="#999999"
+        android:textSize="14dp"
+        tools:text="" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_dialog_bg"
-        android:orientation="vertical">
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp">
 
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="350dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center|left"
-            android:background="@drawable/shape_edit_bg"
-            android:paddingLeft="12dp"
-            android:layout_marginTop="49dp"
-            android:textSize="14dp"
-            android:hint="请输入名称"
-            android:textColor="#999999"
-            tools:text="" />
+        <TextView
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/send_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:text="发送生僻字"
+            android:textColor="@color/colorBlack"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
-            <TextView
-                android:id="@+id/send"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:background="@drawable/send_btn_bg"
-                android:gravity="center"
-                android:singleLine="true"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:text="发送生僻字"
-                android:textColor="@color/colorBlack"
-                android:textSize="13sp" />
-            <TextView
-                android:id="@+id/negtive"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:paddingRight="15dp"
-                android:paddingLeft="15dp"
-                android:layout_toLeftOf="@+id/send"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:text="取消"
-                android:background="@drawable/send_btn_bg"
-                android:singleLine="true"
-                android:layout_marginRight="20dp"
-                android:textColor="@color/colorBlack"
-                android:textSize="13sp" />
+        <TextView
+            android:id="@+id/negtive"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/send"
+            android:background="@drawable/send_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:text="取消"
+            android:textColor="@color/colorBlack"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/positive"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:paddingRight="15dp"
-                android:paddingLeft="15dp"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:text="确定"
-                android:background="@drawable/send_btn_bg_yellow"
-                android:layout_toRightOf="@+id/send"
-                android:singleLine="true"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/colorBlack"
-                android:textSize="13sp" />
+        <TextView
+            android:id="@+id/positive"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/send"
+            android:background="@drawable/send_btn_bg_yellow"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:text="确定"
+            android:textColor="@color/colorBlack"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
 
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
